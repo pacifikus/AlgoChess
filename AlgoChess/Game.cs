@@ -11,6 +11,7 @@ namespace AlgoChess
 	{
 		private const string StartPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 		private Color _turn;
+		private int _moveNumber;
 		private Board _currentBoard;
 
 		public Game()
@@ -38,6 +39,9 @@ namespace AlgoChess
 			_currentBoard = new Board(fenSections[0]);
 			_turn = (Color)fenSections[1][0];
 			// TODO: parse castling
+			// TODO: parse en passant
+			// TODO: parse halfmove clock
+			_moveNumber = int.Parse(fenSections[5]);
 		}
 
 		
