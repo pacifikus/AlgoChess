@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlgoChess.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,13 @@ namespace AlgoChess
 	public class Game
 	{
 		private const string StartPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
+		private Color _turn;
 		private Board _currentBoard;
 
 		public Game()
 		{
 			CurrentPosition = StartPosition;
-			_currentBoard = new Board(CurrentPosition);
+			InitGame();
 		}
 
 		public Game(string fen)
@@ -28,8 +29,18 @@ namespace AlgoChess
 			{
 				CurrentPosition = StartPosition;
 			}
-			_currentBoard = new Board(CurrentPosition);
+			InitGame();
 		}
+
+		private void InitGame()
+		{
+			string[] fenSections = CurrentPosition.Split(' ');
+			_currentBoard = new Board(fenSections[0]);
+			_turn = (Color)fenSections[1][0];
+			// TODO: parse castling
+		}
+
+		
 
 		public string CurrentPosition { get; set; }
 
@@ -37,7 +48,6 @@ namespace AlgoChess
 		{
 			// TODO: currentPosition = START_POSITION, reset all
 		}
-
 
 		public void LoadFromFEN(string fen)
 		{

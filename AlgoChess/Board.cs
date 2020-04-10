@@ -12,11 +12,11 @@ namespace AlgoChess
 		private const int SideSize = 8;
 		private const int FieldCount = 64;
 		private Field[] _fields = new Field[FieldCount];
-		private string _fen;
+		private string _fenSection;
 
 		public Board(string fen)
 		{
-			_fen = fen;
+			_fenSection = fen;
 			InitFields();
 		}
 
@@ -44,19 +44,16 @@ namespace AlgoChess
 			return ascii;
 		}
 
-
 		private void InitFields()
 		{
-			var delimiters = new char[2] { '/', ' ' };
-			string[] sections = _fen.Split(delimiters);
+			var rows = _fenSection.Split('/');
 			int index = 0;
 
-			// First 8 - rows of the board.
 			for (int i = 0; i < SideSize; i++)
 			{
-				for (int j = 0; j < sections[i].Length; j++)
+				for (int j = 0; j < rows[i].Length; j++)
 				{
-					char symbol = sections[i][j];
+					char symbol = rows[i][j];
 					if (char.IsDigit(symbol))
 					{
 						index += symbol - '0'; 
@@ -71,6 +68,5 @@ namespace AlgoChess
 				}
 			}
 		}
-
 	}
 }
