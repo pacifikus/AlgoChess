@@ -1,0 +1,7 @@
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\obj\Debug\AlgoChess.csprojAssemblyReference.cache
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\obj\Debug\AlgoChess.csproj.CoreCompileInputs.cache
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\bin\Debug\AlgoChess.exe.config
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\bin\Debug\AlgoChess.exe
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\bin\Debug\AlgoChess.pdb
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\obj\Debug\AlgoChess.exe
+C:\Users\Krutizna\source\repos\AlgoChess\AlgoChess\obj\Debug\AlgoChess.pdb
