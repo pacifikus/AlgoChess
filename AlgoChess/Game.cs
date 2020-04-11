@@ -91,10 +91,19 @@ namespace AlgoChess
 			return true;
 		}
 
-		private List<string> GetAvailableMoves()
+		private List<Move> GetAvailableMoves()
 		{
-			// TODO: move representation?
-			// TODO: get list of moves from current position.
+			// TODO: sort moves
+			var result = new List<Move>();
+			var generator = new MoveGenerator(_currentBoard);
+			generator.GenerateMoves(_turn);
+			//return result;
+			throw new NotImplementedException();
+		}
+
+		private List<string> GetAvailableMoves(string field)
+		{
+			// TODO: get moves for single field
 			throw new NotImplementedException();
 		}
 
@@ -121,7 +130,7 @@ namespace AlgoChess
 			throw new NotImplementedException();
 		}
 
-		private string MakeMove(string v)
+		private string MakeMove(Move move)
 		{
 			throw new NotImplementedException();
 		}

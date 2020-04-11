@@ -12,14 +12,16 @@ namespace AlgoChess.Entities
 		private const int SideSize = 8;
 		private const int FieldCount = 64;
 		private List<Figure> _figures;
-		private byte[] _fields = new byte[FieldCount];
 		private string _fenSection;
 
 		public Board(string fen)
 		{
 			_fenSection = fen;
+			Fields = new int[FieldCount];
 			InitFields();
 		}
+
+		public int[] Fields { get; private set; }
 
 		public List<Figure> GetFiguresByColor(Color color)
 		{
@@ -37,7 +39,7 @@ namespace AlgoChess.Entities
 				for (int j = 0; j < sideSize; j++)
 				{
 					int index = i * sideSize + j;
-					if (_fields[index] == 0)
+					if (Fields[index] == 0)
 						row += ".";
 					else
 						row += GetFEN(index);
@@ -52,7 +54,7 @@ namespace AlgoChess.Entities
 
 		private string GetFEN(int index)
 		{
-			int figureIndex = _fields[index] - 1;
+			int figureIndex = Fields[index] - 1;
 			return _figures[figureIndex].FenCode.ToString();
 		}
 
@@ -78,13 +80,13 @@ namespace AlgoChess.Entities
 						var figure = new Figure()
 						{
 							Type = type,
-							Position = index,
+							Position = (int)index,
 							IsEnable = true,
 							Color = color,
 							IsMoved = false // TODO: if start position
 						};
-						_figures.Add(figure);
-						_fields[index] = (byte)_figures.Count;
+						_figures.Add(figure); // TODO: sort by weight?
+						Fields[index] = (int)_figures.Count;
 						index++;
 					}
 				}

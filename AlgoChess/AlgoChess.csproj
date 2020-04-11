@@ -47,8 +47,9 @@
     <Compile Include="Entities\Figure.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Enums\Color.cs" />
-    <Compile Include="Enums\Figure.cs" />
+    <Compile Include="Enums\FigureType.cs" />
     <Compile Include="Entities\Move.cs" />
+    <Compile Include="MoveGenerator.cs" />
     <Compile Include="PositionEvaluator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,7 +13,6 @@ namespace AlgoChess.Enums
 		Bishop = 'b',
 		King = 'k',
 		Queen = 'q',
-		Pawn = 'p',
-		None = '_'
+		Pawn = 'p'
 	}
 }
