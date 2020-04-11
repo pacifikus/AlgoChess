@@ -43,11 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Board.cs" />
-    <Compile Include="Figure.cs" />
+    <Compile Include="Entities\Board.cs" />
+    <Compile Include="Entities\Figure.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Enums\Color.cs" />
     <Compile Include="Enums\Figure.cs" />
+    <Compile Include="Entities\Move.cs" />
     <Compile Include="PositionEvaluator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,5 +56,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

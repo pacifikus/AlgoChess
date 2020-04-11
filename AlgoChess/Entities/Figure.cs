@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlgoChess
+namespace AlgoChess.Entities
 {
 	public class Figure
 	{
