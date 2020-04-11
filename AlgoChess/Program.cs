@@ -11,7 +11,8 @@ namespace AlgoChess
 		static void Main(string[] args)
 		{
 			var fen = "rnbq1bnr/pppkpppp/8/3p4/4P3/5N2/PPPP1PPP/RNBQKB1R w KQ - 2 3";
-			var game = new Game(fen);
+			var game = new Game();
+			var ms = game.GetAvailableMoves();
 			Console.WriteLine(game.ToASCII());
 			Console.ReadLine();
 		}

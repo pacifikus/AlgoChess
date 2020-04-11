@@ -91,14 +91,11 @@ namespace AlgoChess
 			return true;
 		}
 
-		private List<Move> GetAvailableMoves()
+		public List<Move> GetAvailableMoves()
 		{
 			// TODO: sort moves
-			var result = new List<Move>();
 			var generator = new MoveGenerator(_currentBoard);
-			generator.GenerateMoves(_turn);
-			//return result;
-			throw new NotImplementedException();
+			return generator.GenerateMoves(_turn);
 		}
 
 		private List<string> GetAvailableMoves(string field)
@@ -127,6 +124,7 @@ namespace AlgoChess
 
 		private int EvaluatePosition(Color color)
 		{
+			
 			throw new NotImplementedException();
 		}
 

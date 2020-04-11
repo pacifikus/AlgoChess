@@ -19,30 +19,26 @@ namespace AlgoChess
 			_moves = new List<Move>();
 		}
 
-		private Move GeneratePawnDoubleFieldsMove(Figure figure)
+		private void GeneratePawnFieldMove(Figure figure, int shift)
 		{
-			throw new NotImplementedException();
-		}
-
-		private void GeneratePawnSingleFieldMove(Figure figure)
-		{
-			int shift = 8; // TODO: create constants for all figures shifts
+			// TODO: create constants for all figures shifts
 			int nextPosition = figure.Position + shift;
 			if (IsWithinBoard(nextPosition) && IsFieldFree(nextPosition))
 			{
 				_moves.Add(new Move(figure.Position, nextPosition));
 			}
+			// captures
 		}
 
 		private bool IsFieldFree(int nextIndex)
 		{
-			return _board.Fields[nextIndex] != 0;
+			return _board.Fields[nextIndex] == 0;
 		}
 
 		private static bool IsWithinBoard(int nextIndex)
 		{
 			// TODO: fill all constraints
-			return nextIndex < 64;
+			return nextIndex >= 0 && nextIndex < 64;
 		}
 
 		public List<Move> GenerateMoves(Color color)
@@ -57,8 +53,9 @@ namespace AlgoChess
 				switch (figures[i].Type)
 				{
 					case FigureType.Pawn:
-						GeneratePawnSingleFieldMove(figures[i]);
-						GeneratePawnDoubleFieldsMove(figures[i]);
+						int shift = color == Color.White ? -8 : 8;
+						GeneratePawnFieldMove(figures[i], shift);
+						GeneratePawnFieldMove(figures[i], shift * 2);
 						break;
 					default:
 						break;
