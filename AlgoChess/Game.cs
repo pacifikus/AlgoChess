@@ -33,29 +33,16 @@ namespace AlgoChess
 			InitGame();
 		}
 
-		private void InitGame()
-		{
-			string[] fenSections = CurrentPosition.Split(' ');
-			_currentBoard = new Board(fenSections[0]);
-			_turn = (Color)fenSections[1][0];
-			// TODO: parse castling
-			// TODO: parse en passant
-			// TODO: parse halfmove clock
-			_moveNumber = int.Parse(fenSections[5]);
-		}
-
-		
-
 		public string CurrentPosition { get; set; }
-
-		public void ResetBoard()
-		{
-			// TODO: currentPosition = START_POSITION, reset all
-		}
 
 		public void LoadFromFEN(string fen)
 		{
 			// TODO: currentPosition = parse(fen)
+		}
+
+		public void ResetBoard()
+		{
+			// TODO: currentPosition = START_POSITION, reset all
 		}
 
 		public string ToASCII()
@@ -68,10 +55,15 @@ namespace AlgoChess
 			// TODO: Undo last move.
 		}
 
-		private bool IsValidFEN(string fen)
+		private void InitGame()
 		{
-			// TODO: validate fen
-			return false;
+			string[] fenSections = CurrentPosition.Split(' ');
+			_currentBoard = new Board(fenSections[0]);
+			_turn = (Color)fenSections[1][0];
+			// TODO: parse castling
+			// TODO: parse en passant
+			// TODO: parse halfmove clock
+			_moveNumber = int.Parse(fenSections[5]);
 		}
 
 		private bool IsCheckmate()
@@ -92,9 +84,44 @@ namespace AlgoChess
 			return false;
 		}
 
+		private bool IsValidFEN(string fen)
+		{
+			// TODO: validate fen
+			return true;
+		}
+
 		private List<string> GetAvailableMoves()
 		{
+			// TODO: move representation?
 			// TODO: get list of moves from current position.
+			throw new NotImplementedException();
+		}
+
+		private int AlphaBeta(Color color, int depth, int alpha, int beta)
+		{
+			if (depth == 0) return EvaluatePosition(color);
+			int score = int.MinValue;
+			var moves = GetAvailableMoves();
+
+			for (int i = 0; i < moves.Count; i++)
+			{
+				MakeMove(moves[i]);
+				var opColor = (color == Color.White) ? Color.Black : Color.White;
+				int value = -1 * AlphaBeta(opColor, depth - 1, -beta, -alpha);
+				if (value > score) score = value;
+				if (score > alpha) alpha = score;
+				if (alpha >= beta) return alpha;
+			}
+			return score;
+		}
+
+		private int EvaluatePosition(Color color)
+		{
+			throw new NotImplementedException();
+		}
+
+		private string MakeMove(string v)
+		{
 			throw new NotImplementedException();
 		}
 	}

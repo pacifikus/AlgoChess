@@ -7,21 +7,18 @@ using System.Threading.Tasks;
 
 namespace AlgoChess
 {
-	public class Field
+	public class Figure
 	{
-		public Field(Color color, Figure figure)
-		{
-			Color = color;
-			Figure = figure;
-		}
-
+		public FigureType Type { get; set; }
+		public int Position { get; set; }
+		public bool IsMoved { get; set; }
+		public bool IsEnable { get; set; }
 		public Color Color { get; set; }
-		public Figure Figure { get; set; }
 		public char FenCode
 		{
 			get
 			{
-				return (Color == Color.White) ? char.ToUpper((char)Figure) : (char)Figure;
+				return (Color == Color.White) ? char.ToUpper((char)Type) : (char)Type;
 			}
 		}
 	}

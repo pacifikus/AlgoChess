@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlgoChess.Enums
 {
-	public enum Figure
+	public enum FigureType
 	{
 		Rook = 'r',
 		Knight = 'n',

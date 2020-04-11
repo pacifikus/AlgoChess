@@ -11,13 +11,19 @@ namespace AlgoChess
 	{
 		private const int SideSize = 8;
 		private const int FieldCount = 64;
-		private Field[] _fields = new Field[FieldCount];
+		private List<Figure> _figures;
+		private int[] _fields = new int[FieldCount];
 		private string _fenSection;
 
 		public Board(string fen)
 		{
 			_fenSection = fen;
 			InitFields();
+		}
+
+		public List<Figure> GetFiguresByColor(Color color)
+		{
+			return _figures.Where(x => x.Color == color).ToList();
 		}
 
 		public string ToASCII()
@@ -31,10 +37,10 @@ namespace AlgoChess
 				for (int j = 0; j < sideSize; j++)
 				{
 					int index = i * sideSize + j;
-					if (_fields[index] == null)
+					if (_fields[index] == 0)
 						row += ".";
 					else
-						row += _fields[index].FenCode;
+						row += GetFEN(index);
 					row += " ";
 				}
 				ascii += row;
@@ -44,10 +50,17 @@ namespace AlgoChess
 			return ascii;
 		}
 
+		private string GetFEN(int index)
+		{
+			int figureIndex = _fields[index] - 1;
+			return _figures[figureIndex].FenCode.ToString();
+		}
+
 		private void InitFields()
 		{
 			var rows = _fenSection.Split('/');
 			int index = 0;
+			_figures = new List<Figure>();
 
 			for (int i = 0; i < SideSize; i++)
 			{
@@ -61,8 +74,17 @@ namespace AlgoChess
 					else
 					{
 						var color = char.IsUpper(symbol) ? Color.White : Color.Black;
-						var figure = (Figure)char.ToLower(symbol);
-						_fields[index] = new Field(color, figure);
+						var type = (FigureType)char.ToLower(symbol);
+						var figure = new Figure()
+						{
+							Type = type,
+							Position = index,
+							IsEnable = true,
+							Color = color,
+							IsMoved = false // TODO: if start position
+						};
+						_figures.Add(figure);
+						_fields[index] = _figures.Count;
 						index++;
 					}
 				}
