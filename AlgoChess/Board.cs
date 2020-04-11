@@ -12,7 +12,7 @@ namespace AlgoChess
 		private const int SideSize = 8;
 		private const int FieldCount = 64;
 		private List<Figure> _figures;
-		private int[] _fields = new int[FieldCount];
+		private byte[] _fields = new byte[FieldCount];
 		private string _fenSection;
 
 		public Board(string fen)
@@ -84,7 +84,7 @@ namespace AlgoChess
 							IsMoved = false // TODO: if start position
 						};
 						_figures.Add(figure);
-						_fields[index] = _figures.Count;
+						_fields[index] = (byte)_figures.Count;
 						index++;
 					}
 				}
