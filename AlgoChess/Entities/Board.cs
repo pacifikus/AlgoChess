@@ -10,7 +10,7 @@ namespace AlgoChess.Entities
 	public class Board
 	{
 		private const int SideSize = 8;
-		private const int FieldCount = 64;
+		private const int FieldCount = 256;
 		private List<Figure> _figures;
 		private string _fenSection;
 
@@ -18,7 +18,32 @@ namespace AlgoChess.Entities
 		{
 			_fenSection = fen;
 			Fields = new int[FieldCount];
+
+			FillBorderFields();
+			FillDefaultFields();
 			InitFields();
+		}
+
+		public List<Figure> Figures => _figures;
+
+		private void FillDefaultFields()
+		{
+			for (int i = 4; i < 12; i++)
+			{
+				for (int j = 4; j < 12; j++)
+				{
+					int index = 16 * i + j - 1;
+					Fields[index] = -1;
+				}
+			}
+		}
+
+		private void FillBorderFields()
+		{
+			for (int i = 0; i < Fields.Length; i++)
+			{
+				Fields[i] = int.MinValue;
+			}
 		}
 
 		public int[] Fields { get; private set; }
@@ -33,13 +58,13 @@ namespace AlgoChess.Entities
 			int sideSize = 8;
 			string ascii = "+---------------------+\n";
 
-			for (int i = 0; i < sideSize; i++)
+			for (int i = 4; i < 12; i++)
 			{
-				string row = $"{sideSize - i} | ";
-				for (int j = 0; j < sideSize; j++)
+				string row = $"{sideSize - i + 4} | ";
+				for (int j = 4; j < 12; j++)
 				{
-					int index = i * sideSize + j;
-					if (Fields[index] == 0)
+					int index = 16 * i + j - 1;
+					if (Fields[index] == -1)
 						row += ".";
 					else
 						row += GetFEN(index);
@@ -54,12 +79,13 @@ namespace AlgoChess.Entities
 
 		private string GetFEN(int index)
 		{
-			int figureIndex = Fields[index] - 1;
+			int figureIndex = Fields[index];
 			return _figures[figureIndex].FenCode.ToString();
 		}
 
 		private void InitFields()
 		{
+			int[] temp = new int[64];
 			var rows = _fenSection.Split('/');
 			int index = 0;
 			_figures = new List<Figure>();
@@ -71,24 +97,50 @@ namespace AlgoChess.Entities
 					char symbol = rows[i][j];
 					if (char.IsDigit(symbol))
 					{
-						index += symbol - '0'; 
+						int step = symbol - '0';
+						for (int k = 0; k < step; k++)
+						{
+							temp[index] = -1;
+							index++;
+						}
 					}
 					else
 					{
 						var color = char.IsUpper(symbol) ? Color.White : Color.Black;
 						var type = (FigureType)char.ToLower(symbol);
-						var figure = new Figure()
-						{
-							Type = type,
-							Position = (int)index,
-							IsEnable = true,
-							Color = color,
-							IsMoved = false // TODO: if start position
-						};
-						_figures.Add(figure); // TODO: sort by weight?
-						Fields[index] = (int)_figures.Count;
+						AddFigure(index, color, type);
+						temp[index] = _figures.Count - 1;
 						index++;
 					}
+				}
+			}
+
+			Resize64To256Fields(temp);
+		}
+
+		private void AddFigure(int index, Color color, FigureType type)
+		{
+			var figure = new Figure()
+			{
+				Type = type,
+				Position = (4 + index / 8) * 16 + index % 8 + 3,
+				IsEnable = true,
+				Color = color,
+				IsMoved = false // TODO: if start position
+			};
+			_figures.Add(figure); // TODO: sort by weight?
+		}
+
+		private void Resize64To256Fields(int[] temp)
+		{
+			int indexTemp = 0;
+			for (int i = 4; i < 12; i++)
+			{
+				for (int j = 4; j < 12; j++)
+				{
+					int indexFields = 16 * i + j - 1;
+					Fields[indexFields] = temp[indexTemp];
+					indexTemp++;
 				}
 			}
 		}

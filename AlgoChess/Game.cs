@@ -107,19 +107,17 @@ namespace AlgoChess
 		private int AlphaBeta(Color color, int depth, int alpha, int beta)
 		{
 			if (depth == 0) return EvaluatePosition(color);
-			int score = int.MinValue;
 			var moves = GetAvailableMoves();
 
 			for (int i = 0; i < moves.Count; i++)
 			{
 				MakeMove(moves[i]);
 				var opColor = (color == Color.White) ? Color.Black : Color.White;
-				int value = -1 * AlphaBeta(opColor, depth - 1, -beta, -alpha);
-				if (value > score) score = value;
+				int score = -1 * AlphaBeta(opColor, depth - 1, -beta, -alpha);
 				if (score > alpha) alpha = score;
-				if (alpha >= beta) return alpha;
+				if (alpha < beta) return alpha;
 			}
-			return score;
+			return alpha;
 		}
 
 		private int EvaluatePosition(Color color)

@@ -9,6 +9,6 @@ namespace AlgoChess.Enums
 	public enum Color
 	{
 		Black = 'b',
-		White = 'w',
+		White = 'w'
 	}
 }
