@@ -11,6 +11,7 @@ namespace AlgoChess
 	public class Game
 	{
 		private const string StartPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+		private const int MaxPly = 6;
 		private Color _turn;
 		private int _moveNumber;
 		private Board _currentBoard;
@@ -98,32 +99,47 @@ namespace AlgoChess
 			return generator.GenerateMoves(_turn);
 		}
 
-		private List<string> GetAvailableMoves(string field)
+		private int AlphaBeta(Color color, int depth, int alpha, int beta, Move move, int ply)
 		{
-			// TODO: get moves for single field
-			throw new NotImplementedException();
-		}
-
-		private int AlphaBeta(Color color, int depth, int alpha, int beta)
-		{
-			if (depth == 0) return EvaluatePosition(color);
-			var moves = GetAvailableMoves();
+			// TODO: IsInCheck
+			depth--;
+			if (depth == 0 || ply > MaxPly) return EvaluatePosition(color); // TODO: forced search
+			var moves = GetAvailableMoves(); // TODO: sort moves
+			int result = int.MinValue;
 
 			for (int i = 0; i < moves.Count; i++)
 			{
+				// TODO: if king was ate?
 				MakeMove(moves[i]);
 				var opColor = (color == Color.White) ? Color.Black : Color.White;
-				int score = -1 * AlphaBeta(opColor, depth - 1, -beta, -alpha);
-				if (score > alpha) alpha = score;
-				if (alpha < beta) return alpha;
+				int score = -1 * AlphaBeta(opColor, depth, -(alpha + 1), -alpha, move, ply + 1); // TODO: change move
+				if(score > alpha && score < beta)
+				{
+					score = -1 * AlphaBeta(opColor, depth, -beta, -score, move, ply + 1); // TODO: change move
+				}
+				UnmakeMove(moves[i]);
+				if (score > result) result = score;
+				if (result > alpha)
+				{
+					alpha = result;
+					// return bestmove
+				}
+				if (alpha >= beta) return alpha;
 			}
-			return alpha;
+			// TODO: check stalemate
+			result = 0;
+			return result;
 		}
 
-		private int EvaluatePosition(Color color)
+		private void UnmakeMove(Move move)
 		{
-			
 			throw new NotImplementedException();
+		}
+
+		public int EvaluatePosition(Color color)
+		{
+			var evaluator = new PositionEvaluator(_currentBoard);
+			return evaluator.Evaluate(color);
 		}
 
 		private string MakeMove(Move move)

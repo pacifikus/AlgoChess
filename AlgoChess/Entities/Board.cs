@@ -123,12 +123,13 @@ namespace AlgoChess.Entities
 			var figure = new Figure()
 			{
 				Type = type,
-				Position = (4 + index / 8) * 16 + index % 8 + 3,
+				Position64 = index,
+				Position256 = (4 + index / 8) * 16 + index % 8 + 3,
 				IsEnable = true,
 				Color = color,
-				IsMoved = false // TODO: if start position
+				IsMoved = false
 			};
-			_figures.Add(figure); // TODO: sort by weight?
+			_figures.Add(figure); 
 		}
 
 		private void Resize64To256Fields(int[] temp)

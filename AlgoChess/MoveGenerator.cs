@@ -24,7 +24,7 @@ namespace AlgoChess
 		private void InitShifts()
 		{
 			_captureShifts = new Dictionary<FigureType, List<int>>();
-			_captureShifts.Add(FigureType.Pawn, new List<int>() { 1, -1 }); // update
+			_captureShifts.Add(FigureType.Pawn, new List<int>() { 1, -1 });
 			_captureShifts.Add(FigureType.Bishop, new List<int>() { 15, 17, -15, -17 });
 			_captureShifts.Add(FigureType.Rook, new List<int>() { 1, -1, 16, -16 });
 			_captureShifts.Add(FigureType.Knight, new List<int>() { -18, -14, 18, 14, -33, -31,33,31 }); 
@@ -36,10 +36,10 @@ namespace AlgoChess
 		{
 			for (int i = 1; i < 3; i++)
 			{
-				int nextPosition = figure.Position + pawnShift * i;
+				int nextPosition = figure.Position256 + pawnShift * i;
 				if (IsWithinBoard(nextPosition) && IsFreeField(nextPosition))
 				{
-					_moves.Add(new Move(figure.Position, nextPosition));
+					_moves.Add(new Move(figure.Position256, nextPosition));
 				}
 			}
 
@@ -49,10 +49,10 @@ namespace AlgoChess
 
 			for (int i = 0; i < shifts.Count; i++)
 			{
-				int nextPosition = figure.Position + pawnShift + shifts[i];
+				int nextPosition = figure.Position256 + pawnShift + shifts[i];
 				if (IsWithinBoard(nextPosition) && IsEnemysField(nextPosition, enemyColor))
 				{
-					_moves.Add(new Move(figure.Position, nextPosition));
+					_moves.Add(new Move(figure.Position256, nextPosition));
 				}
 			}
 		}
@@ -64,7 +64,7 @@ namespace AlgoChess
 
 			for (int i = 0; i < shifts.Count; i++)
 			{
-				int nextPosition = figure.Position;
+				int nextPosition = figure.Position256;
 
 				while (true)
 				{
@@ -74,13 +74,13 @@ namespace AlgoChess
 					{
 						if (IsFreeField(nextPosition))
 						{
-							_moves.Add(new Move(figure.Position, nextPosition));
+							_moves.Add(new Move(figure.Position256, nextPosition));
 						}
 						else break; 
 
 						if (IsEnemysField(nextPosition, enemyColor))
 						{
-							_moves.Add(new Move(figure.Position, nextPosition));
+							_moves.Add(new Move(figure.Position256, nextPosition));
 							break;
 						}
 					}
@@ -126,6 +126,7 @@ namespace AlgoChess
 				switch (figures[i].Type)
 				{
 					case FigureType.Pawn:
+						// TODO: en passant 
 						var shift = figures[i].Color == Color.White ? -16 : 16;
 						GeneratePawnMoves(figures[i], shift);
 						break;

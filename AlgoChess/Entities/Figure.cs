@@ -10,7 +10,8 @@ namespace AlgoChess.Entities
 	public class Figure
 	{
 		public FigureType Type { get; set; }
-		public int Position { get; set; }
+		public int Position64 { get; set; }
+		public int Position256 { get; set; }
 		public bool IsMoved { get; set; }
 		public bool IsEnable { get; set; }
 		public Color Color { get; set; }
