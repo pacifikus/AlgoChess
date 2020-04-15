@@ -103,7 +103,7 @@ namespace AlgoChess
 		{
 			// TODO: IsInCheck
 			depth--;
-			if (depth == 0 || ply > MaxPly) return EvaluatePosition(color); // TODO: forced search
+			if (depth == 0 || ply > MaxPly) return ForcedSearch(alpha, beta, ply, color); // TODO: forced search
 			var moves = GetAvailableMoves(); // TODO: sort moves
 			int result = int.MinValue;
 
@@ -113,7 +113,7 @@ namespace AlgoChess
 				MakeMove(moves[i]);
 				var opColor = (color == Color.White) ? Color.Black : Color.White;
 				int score = -1 * AlphaBeta(opColor, depth, -(alpha + 1), -alpha, move, ply + 1); // TODO: change move
-				if(score > alpha && score < beta)
+				if (score > alpha && score < beta)
 				{
 					score = -1 * AlphaBeta(opColor, depth, -beta, -score, move, ply + 1); // TODO: change move
 				}
@@ -131,6 +131,32 @@ namespace AlgoChess
 			return result;
 		}
 
+		private int ForcedSearch(int alpha, int beta, int ply, Color color)
+		{
+			int score = EvaluatePosition(color);
+			int result = int.MinValue;
+			if (score > result) result = score;
+			if (result > alpha) alpha = result;
+			if (alpha >= beta) return alpha;
+			var captures = GetAvailableCaptures();
+
+			for (int i = 0; i < captures.Count; i++)
+			{
+				MakeMove(captures[i]);
+				var temp = -1 * ForcedSearch(-beta, -alpha, ply + 1, color); //TODO: remove color
+				UnmakeMove(captures[i]);
+				if (temp > result) result = temp;
+				if (result > alpha) alpha = result;
+				if (alpha >= beta) return alpha;
+			}
+			return result;
+		}
+
+		private List<Move> GetAvailableCaptures()
+		{
+			throw new NotImplementedException();
+		}
+
 		private void UnmakeMove(Move move)
 		{
 			throw new NotImplementedException();
@@ -144,6 +170,10 @@ namespace AlgoChess
 
 		private string MakeMove(Move move)
 		{
+			// TODO: pawn to figure
+			// TODO: captures and moves
+			// TODO: castling
+			// TODO: en passant
 			throw new NotImplementedException();
 		}
 	}
